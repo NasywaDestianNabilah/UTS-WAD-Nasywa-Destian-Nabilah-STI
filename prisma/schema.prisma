@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Wallet {
+  id           Int           @id @default(autoincrement())
+  name         String
+  currency     String        @default("IDR")
+  createdAt    DateTime      @default(now())
+  transactions Transaction[]
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  type      String
+  category  String
+  note      String?
+  date      DateTime
+  createdAt DateTime @default(now())
+  walletId  Int
+  wallet    Wallet   @relation(fields: [walletId], references: [id])
+}
